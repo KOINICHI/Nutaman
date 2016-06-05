@@ -184,6 +184,7 @@ $(document).ready(function() {
 	if (Cookies.get('code') != undefined) {
 		$('#party-text').val(Cookies.get('code'))
 	}
+	$('#party-submit .btn').click();
 	
 	$('.block .btn').on('click', function() {
 		var $div = $(this).parent();
