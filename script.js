@@ -184,7 +184,6 @@ $(document).ready(function() {
 	if (Cookies.get('code') != undefined) {
 		$('#party-text').val(Cookies.get('code'))
 	}
-	$('#party-submit .btn').click();
 	
 	$('.block .btn').on('click', function() {
 		var $div = $(this).parent();
@@ -198,6 +197,8 @@ $(document).ready(function() {
 	$('#party-submit .btn').on('click', function() {
 		var code = $('#party-text').val();
 		var name = $('#my-name').val();
+		
+		if (code == ' ') { return; }
 		
 		document.party.import(code);
 		var player = document.party.getPlayerByName(name);
@@ -250,6 +251,9 @@ $(document).ready(function() {
 	$('#party-text-share').on('click', function() {
 		this.select();
 	});
+	
+	
+	$('#party-submit .btn').trigger('click');
 });
 
 }(jQuery);
