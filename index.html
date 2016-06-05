@@ -15,149 +15,156 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     
+    <!-- JavaScript Cookie https://github.com/js-cookie/js-cookie -->
+    <script src="js.cookie.js"></script>
+    
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-        <li><a data-toggle="pill" href="#party">Party</a></li>
-        <li><a data-toggle="pill" href="#phase1">Phase 1</a></li>
-        <li><a data-toggle="pill" href="#phase2">Phase 2</a></li>
-        <li><a data-toggle="pill" href="#phase4">Phase 4</a></li>
-        <li><a data-toggle="pill" href="#share">Share</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-            <div class="form-group">
-                <label for="name"> Your Name : </label>
-                <input type="text" id="my-name" />
-            </div>
-            <div id="party-submit" class="form-group">
-                <textarea id="party-text" class="form-control"> </textarea>
-                <button class="btn btn-default">Update</button>
-            </div>
-            Your Roles are :
-            <ul id="my-roles"> </ul>
-        </div>
-        <div id="party" class="tab-pane fade">
-            <div id="add-player" class="form-group">
-                <ul class="player-list"> </ul>
-                <button class="btn btn-default">New Player</button>
-            </div>
-        </div>
-        
-        <div id="phase1" class="tab-pane fade">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3"> Phase </div>
-                    <div class="col-sm-3"> Left </div>
-                    <div class="col-sm-3"> Mid </div>
-                    <div class="col-sm-3"> Right </div>
+    <div class="entire">
+        <h1> Nutellaman Party Maker </h1>
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+            <li><a data-toggle="pill" href="#party">Party</a></li>
+            <li><a data-toggle="pill" href="#phase1">Phase 1</a></li>
+            <li><a data-toggle="pill" href="#phase2">Phase 2</a></li>
+            <li><a data-toggle="pill" href="#phase4">Phase 4</a></li>
+            <li><a data-toggle="pill" href="#share">Share</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div class="form-group">
+                    <label for="name"> Your Name : </label>
+                    <input type="text" id="my-name" class="form-control" />
                 </div>
-                <div class="row">
-                    <div class="col-sm-3"> 1-1 </div>
-                    <div class="col-sm-3 block" data-phase="11" data-position="l">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3 block" data-phase="11" data-position="m">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3 block" data-phase="11" data-position="r">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
+                <div id="party-submit" class="form-group">
+                    <label for="party-text"> Code : </label>
+                    <textarea id="party-text" class="form-control"> </textarea>
+                    <button class="btn btn-default">Update</button>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3"> 1-4 </div>
-                    <div class="col-sm-3 block" data-phase="14" data-position="l">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3"> </div>
-                    <div class="col-sm-3 block" data-phase="14" data-position="r">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
+                <label for="party-text"> Your Roles are : </label>
+                <ul id="my-roles"> </ul>
+            </div>
+            <div id="party" class="tab-pane fade">
+                <div id="add-player" class="form-group">
+                    <ul class="player-list"> </ul>
+                    <button class="btn btn-default">New Player</button>
                 </div>
             </div>
-        </div>
-        <div id="phase2" class="tab-pane fade">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-4"> </div>
-                    <div class="col-sm-4"> Left </div>
-                    <div class="col-sm-4"> Right </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3"> North </div>
-                    <div class="col-sm-3 block" data-phase="2" data-position="nl">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+            
+            <div id="phase1" class="tab-pane fade phase">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3 header"> Phase </div>
+                        <div class="col-sm-3 header"> Left </div>
+                        <div class="col-sm-3 header"> Mid </div>
+                        <div class="col-sm-3 header"> Right </div>
                     </div>
-                    <div class="col-sm-3 block" data-phase="2" data-position="nr">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+                    <div class="row">
+                        <div class="col-sm-3 header"> 1-1 </div>
+                        <div class="col-sm-3 block" data-phase="11" data-position="l">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="11" data-position="m">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="11" data-position="r">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3"> South </div>
-                    <div class="col-sm-3 block" data-phase="2" data-position="sl">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3 block" data-phase="2" data-position="sr">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+                    <div class="row">
+                        <div class="col-sm-3 header"> 1-4 </div>
+                        <div class="col-sm-3 block" data-phase="14" data-position="l">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3"> </div>
+                        <div class="col-sm-3 block" data-phase="14" data-position="r">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="phase4" class="tab-pane fade">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">  </div>
-                    <div class="col-sm-3"> Left </div>
-                    <div class="col-sm-3"> Mid </div>
-                    <div class="col-sm-3"> Right </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3"> North </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="nl">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+            <div id="phase2" class="tab-pane fade phase">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4 header"> </div>
+                        <div class="col-sm-4 header"> Left </div>
+                        <div class="col-sm-4 header"> Right </div>
                     </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="nm">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+                    <div class="row">
+                        <div class="col-sm-4 header"> North </div>
+                        <div class="col-sm-4 block" data-phase="2" data-position="nl">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-4 block" data-phase="2" data-position="nr">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
                     </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="nr">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3"> South </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="sl">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="sm">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
-                    </div>
-                    <div class="col-sm-3 block" data-phase="4" data-position="sr">
-                        <ul class="player-list"> </ul>
-                        <button class="btn btn-default">Add</button>
+                    <div class="row">
+                        <div class="col-sm-4 header"> South </div>
+                        <div class="col-sm-4 block" data-phase="2" data-position="sl">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-4 block" data-phase="2" data-position="sr">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="share" class="tab-pane fade">
-            Copy and send it to your party members!
-            <textarea id="party-text-share" class="form-control"> </textarea>
+            <div id="phase4" class="tab-pane fade phase">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3 header">  </div>
+                        <div class="col-sm-3 header"> Left </div>
+                        <div class="col-sm-3 header"> Mid </div>
+                        <div class="col-sm-3 header"> Right </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 header"> North </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="nl">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="nm">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="nr">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 header"> South </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="sl">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="sm">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                        <div class="col-sm-3 block" data-phase="4" data-position="sr">
+                            <ul class="player-list"> </ul>
+                            <button class="btn btn-default">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="share" class="tab-pane fade">
+                <label for="party-text-share"> Copy and send it to your party members! </label>
+                <textarea id="party-text-share" class="form-control"> </textarea>
+            </div>
         </div>
     </div>
 </body>

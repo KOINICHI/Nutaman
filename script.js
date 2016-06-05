@@ -90,11 +90,12 @@ Party.prototype.makePlayerForm = function(player) {
 	});
 	var $name = $('<input>').addClass('form-control')
 		.attr('type', 'text')
+		.attr('placeholder', 'name')
 		.val(name);
 	return $('<li>').attr('data-player-id', id)
 		.addClass('form-group')
-		.append($select)
-		.append($name);
+		.append($name)
+		.append($select);
 }
 Party.prototype.getPlayer = function(id) {
 	var ret = null;
@@ -177,6 +178,13 @@ document.jobs = new Jobs();
 document.party = new Party();
 
 $(document).ready(function() {
+	if (Cookies.get('name') != undefined) {
+		$('#my-name').val(Cookies.get('name'))
+	}
+	if (Cookies.get('code') != undefined) {
+		$('#party-text').val(Cookies.get('code'))
+	}
+	
 	$('.block .btn').on('click', function() {
 		var $div = $(this).parent();
 		var phase = $div.data('phase');
@@ -187,10 +195,15 @@ $(document).ready(function() {
 		$ul.append(document.party.makePlayerSelectForm(0, phase, position, $ul.children().length));
 	});
 	$('#party-submit .btn').on('click', function() {
-		document.party.import($('#party-text').val());
-		var player = document.party.getPlayerByName($('#my-name').val());
+		var code = $('#party-text').val();
+		var name = $('#my-name').val();
+		
+		document.party.import(code);
+		var player = document.party.getPlayerByName(name);
 		if (player == null) { return; }
 		
+		Cookies.set('name', name);
+		Cookies.set('code', code);
 		var positions = []
 		$.each(document.party.getAllPhases(), function(i, phase) {
 			positions.push([phase.id]);
@@ -199,9 +212,20 @@ $(document).ready(function() {
 			});
 		});
 		$.each(positions, function(i, val) {
-			var phase = val[0];
-			var position = val[1] != undefined ? val[1] : 'none';
-			$('#my-roles').append($('<li>').text(phase + ' ' + position));
+			var phase = val[0].split('');
+			var position = val[1] != undefined ? val[1].split('') : 'none';
+			var convertPosition = function(pos) {
+				switch (pos) {
+					case 'l' : return 'Left';
+					case 'm' : return 'Mid';
+					case 'r' : return 'Right';
+					case 'n' : return 'North';
+					case 's' : return 'South';
+				}
+				return '';
+			}
+			$('#my-roles').append($('<li>').text(
+				'Phase ' + phase.join('-') + ' ' + position.map(convertPosition).join(' ')));
 		});
 	});
 	$('#add-player .btn').on('click', function() {
@@ -217,6 +241,9 @@ $(document).ready(function() {
 		if ($(event.target).text() == "Share") {
 			$('#party-text-share').text(document.party.export());
 		}
+	});
+	$('#party-text').on('click', function() {
+		this.select();
 	});
 	$('#party-text-share').on('click', function() {
 		this.select();

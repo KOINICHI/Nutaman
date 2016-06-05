@@ -1,1 +1,61 @@
+.entire {
+    margin: 50px auto;
+    width: 90%;
+}
+.tab-content {
+    margin-top: 50px;
+}
 
+
+#home textarea{
+    height: 100px;
+}
+#home .btn {
+    margin-top: 10px;
+    float: right;
+}
+
+.player-list {
+    list-style: none;
+    padding-left: 0px;
+}
+
+#add-player .player-list li select, #add-player .player-list li input{
+    display: inline-block;
+    width: 48%;
+    box-sizing: border-box;
+}
+#add-player .player-list li input {
+    margin-right: 1%;
+}
+#add-player .player-list li select {
+    margin-left: 1%;
+}
+#add-player .btn {
+    width: 100%;
+}
+
+
+.phase .header {
+    font-size: 14pt;
+    text-align: center;
+}
+.phase .row {
+    margin: 10px 0px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #aaa;
+}
+.phase .player-list {
+    margin: 0px;
+    padding: 0px;
+}
+.phase .btn {
+    vertical-align: top;
+    width: 100%;
+}
+
+#my-roles {
+    list-style: none;
+    margin-top: 20px;
+    font-size: 14pt;
+}
