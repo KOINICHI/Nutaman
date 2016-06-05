@@ -21,9 +21,9 @@ Jobs.prototype.RUNEBLADER = '9';
 //Jobs.prototype. = 11;
 
 
-var Player = function(id) {
+var Player = function(id, job) {
 	this.id = id;
-	this.job = '0';
+	this.job = job;
 	this.name = '';
 }
 Player.prototype.import = function(json) {
@@ -47,7 +47,7 @@ Phase.prototype.getPositionsOfPlayer = function(player) {
 	ret = []
 	$.each(this.players, function(position, players) {
 		if (players.indexOf(player.id) >= 0) {
-			ret.push(position);
+			ret.push(position.toString());
 		}
 	});
 	return ret;
@@ -77,10 +77,10 @@ Party.prototype.getPhase = function(phase) {
 	if (phase == "4") { return this.phase4; }
 	return null;
 }
-Party.prototype.addNewPlayer = function() {
+Party.prototype.addNewPlayer = function(job) {
 	var id = this.id_count.toString();
 	this.id_count++;
-	var player = new Player(id);
+	var player = new Player(id, job);
 	this.players.push(player);
 	return this.makePlayerForm(player);
 }
@@ -148,7 +148,7 @@ Party.prototype.makePlayerSelectForm = function(id, phase, position, idx) {
 	var $select = $('<select>').attr('class', 'form-control');
 	$.each(this.players, function(i, player) {
 		$select.append($('<option>', {
-			selected: id == i,
+			selected: id == i.toString(),
 			value: player.id,
 			text: player.name + ' (' + document.jobs.jobs[player.job] + ')'
 		}));
@@ -223,9 +223,9 @@ $(document).ready(function() {
 		var phase = $div.data('phase');
 		var position = $div.data('position');
 		
-		document.party.getPhase(phase).players[position].push(0);
+		document.party.getPhase(phase).players[position].push('0');
 		var $ul = $(this).siblings().eq(0);
-		$ul.append(document.party.makePlayerSelectForm(0, phase, position, $ul.children().length));
+		$ul.append(document.party.makePlayerSelectForm('0', phase, position, $ul.children().length));
 	});
 	$('#party-submit .btn').on('click', function() {
 		var code = $('#party-text').val();
@@ -265,7 +265,7 @@ $(document).ready(function() {
 		});
 	});
 	$('#add-player .btn').on('click', function() {
-		$('#party .player-list').append(document.party.addNewPlayer());
+		$('#party .player-list').append(document.party.addNewPlayer('0'));
 	});
 	$('.nav-pills a').on('click', function() {
 		if (!this.href.endsWith('party')) {
@@ -295,7 +295,47 @@ $(document).ready(function() {
 		this.select();
 	});
 	
+	
+	/* Presetting */
 	$('#party-submit .btn').trigger('click');
+	$.each("1144890000".split(''), function(i, job) {
+		$('#party .player-list').append(document.party.addNewPlayer(job));
+	});
+	$('.block .btn').each(function(i) {
+		var phase = $(this).parent().data('phase');
+		var position = $(this).parent().data('position');
+		
+		if (phase == '11') {
+			for (var i=0; i<3; i++) {
+				$(this).trigger('click');
+			}
+			if (position == 'l') {
+				$(this).trigger('click');
+			}
+		}
+		if (phase == '14') {
+			for (var i=0; i<5; i++) {
+				$(this).trigger('click');
+			}
+		}
+		if (phase == '2') {
+			for (var i=0; i<2; i++) {
+				$(this).trigger('click');
+			}
+			if (position == 'nr' || position == 'sl') {
+				$(this).trigger('click');
+			}
+		}
+		if (phase == '4') {
+			$(this).trigger('click');
+			if (position == 'nm' || position == 'sl' || position == 'sm') {
+				$(this).trigger('click');
+			}
+			if (position == 'nm') {
+				$(this).trigger('click');
+			}
+		}
+	});
 });
 
 }(jQuery);
