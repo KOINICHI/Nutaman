@@ -62,6 +62,7 @@ var Party = function() {
 	this.phase2 = new Phase('2', ['nl','nr', 'sl', 'sr']);
 	this.phase4 = new Phase('4', ['nl','nm','nr', 'sl','sm','sr']);
 	this.players = []
+	this.id_count = 0;
 }
 Party.prototype.getAllPhases = function() {
 	return [this.phase11, this.phase14, this.phase2, this.phase4];
@@ -74,12 +75,14 @@ Party.prototype.getPhase = function(phase) {
 	return null;
 }
 Party.prototype.addNewPlayer = function() {
-	var id = this.players.length.toString();
+	var id = this.id_count.toString();
+	this.id_count++;
 	var player = new Player(id);
 	this.players.push(player);
 	return this.makePlayerForm(player);
 }
 Party.prototype.makePlayerForm = function(player) {
+	var that = this;
 	var id = player.id, job = player.job, name = player.name;
 	var $select = $('<select>').addClass('form-control');
 	$.each(document.jobs.jobs, function(i, jobname) {
@@ -92,13 +95,30 @@ Party.prototype.makePlayerForm = function(player) {
 		.attr('type', 'text')
 		.attr('placeholder', 'name')
 		.val(name);
-	var $delete = $('<button>').addClass('.btn .btn-default')
+	var $delete = $('<button>').addClass('btn')
+		.addClass('btn-default')
 		.text('\u2715')
+	$delete.on('click', function() {
+		that.removePlayer(id);
+		$(this).parent().remove();
+	});
 	return $('<li>').attr('data-player-id', id)
 		.addClass('form-group')
 		.append($name)
 		.append($select)
 		.append($delete);
+}
+Party.prototype.removePlayer = function(id) {
+	for (var i=0; i<this.players.length; i++) {
+		if (this.players[i].id == id) {
+			this.players.splice(i, 1);
+			break;
+		}
+	}
+}
+Party.prototype.removePlayerFromPhase = function(id, phase, position) {
+	var players = this.getPhase(phase).players[position];
+	players.splice(players.indexOf(id), 1);
 }
 Party.prototype.getPlayer = function(id) {
 	var ret = null;
@@ -135,15 +155,19 @@ Party.prototype.makePlayerSelectForm = function(id, phase, position, idx) {
 		var players = that.getPhase(phase).players[position];
 		players[$(this).data('idx')] = $(this).val();
 	});
-	var $delete = $('<button>').addClass('.btn .btn-default')
+	var $delete = $('<button>').addClass('btn')
+		.addClass('btn-default')
 		.text('\u2715')
+	$delete.on('click', function() {
+		that.removePlayerFromPhase(id, phase, position);
+		$(this).parent().remove();
+	});
 	return $('<li>').addClass('form-group')
 		.append($select)
 		.append($delete);
 }
 Party.prototype.updatePlayers = function() {
 	var that = this;
-	
 	$('#party .player-list li').each( function(i) {
 		var html = $(this);
 		var player = that.getPlayer(html.data('player-id'));
@@ -245,8 +269,13 @@ $(document).ready(function() {
 			document.party.updatePlayers();
 		}
 		document.party.updateForms();
+		document.party.export();
 	});
 	$('.nav-pills a').on('show.bs.tab', function() {
+		if ($(event.target).text() == "Home") {
+			$('#party-text').text(document.party.export());
+			$('#party-submit .btn').trigger('click');
+		}
 		if ($(event.target).text() == "Share") {
 			$('#party-text-share').text(document.party.export());
 		}
@@ -262,7 +291,6 @@ $(document).ready(function() {
 	$('#party-text-share').on('click', function() {
 		this.select();
 	});
-	
 	
 	$('#party-submit .btn').trigger('click');
 });
