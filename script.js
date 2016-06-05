@@ -211,9 +211,10 @@ $(document).ready(function() {
 				positions[i].push(position);
 			});
 		});
+		$('#my-roles').empty();
 		$.each(positions, function(i, val) {
 			var phase = val[0].split('');
-			var position = val[1] != undefined ? val[1].split('') : 'none';
+			var position = val[1] != undefined ? val[1].split('') : ['none'];
 			var convertPosition = function(pos) {
 				switch (pos) {
 					case 'l' : return 'Left';
