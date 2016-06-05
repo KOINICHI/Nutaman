@@ -234,6 +234,8 @@ $(document).ready(function() {
 		if (code == ' ') { return; }
 		
 		document.party.import(code);
+		
+		if (name == '') { return; }
 		var player = document.party.getPlayerByName(name);
 		if (player == null) { return; }
 		
