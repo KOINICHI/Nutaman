@@ -294,7 +294,11 @@ $(document).ready(function() {
 	$('#party-text-share').on('click', function() {
 		this.select();
 	});
-	
+	$('#reset-cookie').on('click', function() {
+		Cookies.remove('name');
+		Cookies.remove('code');
+		location.reload();
+	});
 	
 	/* Presetting */
 	$('#party-submit .btn').trigger('click');
