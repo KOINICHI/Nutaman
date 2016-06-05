@@ -4,23 +4,23 @@
 var Jobs = function() {
 	this.jobs = ['Beginner', 'Knight', 'Berserker', 'Wizard', 'Priest', 'Ranger', 'Heavy Gunner', 'Thief', 'Assassin', 'Rune Blader'];
 }
-Jobs.prototype.BEGINNER = 0;
-Jobs.prototype.KNIGHT = 1;
-Jobs.prototype.BERSERKER = 2;
-Jobs.prototype.WIZARD = 3;
-Jobs.prototype.PRIEST = 4;
-Jobs.prototype.RANGER = 5;
-Jobs.prototype.HEAVYGUNNER = 6;
-Jobs.prototype.THIEF = 7;
-Jobs.prototype.ASSASSIN = 8;
-Jobs.prototype.RUNEBLADER = 9;
+Jobs.prototype.BEGINNER = '0';
+Jobs.prototype.KNIGHT = '1';
+Jobs.prototype.BERSERKER = '2';
+Jobs.prototype.WIZARD = '3';
+Jobs.prototype.PRIEST = '4';
+Jobs.prototype.RANGER = '5';
+Jobs.prototype.HEAVYGUNNER = '6';
+Jobs.prototype.THIEF = '7';
+Jobs.prototype.ASSASSIN = '8';
+Jobs.prototype.RUNEBLADER = '9';
 //Jobs.prototype. = 10;
 //Jobs.prototype. = 11;
 
 
 var Player = function(id) {
 	this.id = id;
-	this.job = 0;
+	this.job = '0';
 	this.name = '';
 }
 Player.prototype.import = function(json) {
@@ -50,7 +50,7 @@ Phase.prototype.getPositionsOfPlayer = function(player) {
 	return ret;
 }
 Phase.prototype.import = function(json) {
-	this.id = json.id;
+	this.id = json.id.toString();
 	this.players = json.players;
 }
 
@@ -74,7 +74,7 @@ Party.prototype.getPhase = function(phase) {
 	return null;
 }
 Party.prototype.addNewPlayer = function() {
-	var id = this.players.length;
+	var id = this.players.length.toString();
 	var player = new Player(id);
 	this.players.push(player);
 	return this.makePlayerForm(player);
@@ -92,10 +92,13 @@ Party.prototype.makePlayerForm = function(player) {
 		.attr('type', 'text')
 		.attr('placeholder', 'name')
 		.val(name);
+	var $delete = $('<button>').addClass('.btn .btn-default')
+		.text('\u2715')
 	return $('<li>').attr('data-player-id', id)
 		.addClass('form-group')
 		.append($name)
-		.append($select);
+		.append($select)
+		.append($delete);
 }
 Party.prototype.getPlayer = function(id) {
 	var ret = null;
@@ -119,21 +122,24 @@ Party.prototype.getPlayerByName = function(name) {
 }
 Party.prototype.makePlayerSelectForm = function(id, phase, position, idx) {
 	var that = this;
-	var select = $('<select>').attr('class', 'form-control');
+	var $select = $('<select>').attr('class', 'form-control');
 	$.each(this.players, function(i, player) {
-		select.append($('<option>', {
+		$select.append($('<option>', {
 			selected: id == i,
 			value: player.id,
 			text: player.name + ' (' + document.jobs.jobs[player.job] + ')'
 		}));
 	});
-	select.data('idx', idx.toString());
-	select.on('change', function() {
+	$select.data('idx', idx.toString());
+	$select.on('change', function() {
 		var players = that.getPhase(phase).players[position];
 		players[$(this).data('idx')] = $(this).val();
 	});
+	var $delete = $('<button>').addClass('.btn .btn-default')
+		.text('\u2715')
 	return $('<li>').addClass('form-group')
-		.append(select);
+		.append($select)
+		.append($delete);
 }
 Party.prototype.updatePlayers = function() {
 	var that = this;
@@ -243,6 +249,11 @@ $(document).ready(function() {
 	$('.nav-pills a').on('show.bs.tab', function() {
 		if ($(event.target).text() == "Share") {
 			$('#party-text-share').text(document.party.export());
+		}
+	});
+	$('#my-name').on('keydown', function(e) {
+		if (e.which == 13) {
+			$('#party-submit .btn').trigger('click');
 		}
 	});
 	$('#party-text').on('click', function() {

@@ -22,7 +22,7 @@
 
 #add-player .player-list li select, #add-player .player-list li input{
     display: inline-block;
-    width: 48%;
+    width: 47%;
     box-sizing: border-box;
 }
 #add-player .player-list li input {
@@ -30,6 +30,9 @@
 }
 #add-player .player-list li select {
     margin-left: 1%;
+    margin-right: 1%;
+}
+#add-player .player-list li button {
 }
 #add-player .btn {
     width: 100%;
@@ -48,6 +51,11 @@
 .phase .player-list {
     margin: 0px;
     padding: 0px;
+}
+.phase .player-list li select {
+    display: inline-block;
+    width: 85%;
+    margin-right: 1%;
 }
 .phase .btn {
     vertical-align: top;
