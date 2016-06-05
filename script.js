@@ -1,5 +1,8 @@
 !function ($) {
 
+String.prototype.endsWith = function(word) {
+	return this.indexOf(word) == this.length - word.length;
+}
 
 var Jobs = function() {
 	this.jobs = ['Beginner', 'Knight', 'Berserker', 'Wizard', 'Priest', 'Ranger', 'Heavy Gunner', 'Thief', 'Assassin', 'Rune Blader'];
@@ -97,7 +100,7 @@ Party.prototype.makePlayerForm = function(player) {
 		.val(name);
 	var $delete = $('<button>').addClass('btn')
 		.addClass('btn-default')
-		.text('\u2715')
+		.text('\u274c')
 	$delete.on('click', function() {
 		that.removePlayer(id);
 		$(this).parent().remove();
@@ -157,7 +160,7 @@ Party.prototype.makePlayerSelectForm = function(id, phase, position, idx) {
 	});
 	var $delete = $('<button>').addClass('btn')
 		.addClass('btn-default')
-		.text('\u2715')
+		.text('\u274c')
 	$delete.on('click', function() {
 		that.removePlayerFromPhase(id, phase, position);
 		$(this).parent().remove();
