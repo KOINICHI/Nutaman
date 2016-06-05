@@ -147,7 +147,7 @@ Party.prototype.updatePlayers = function() {
 	$('#party .player-list li').each( function(i) {
 		var html = $(this);
 		var player = that.getPlayer(html.data('player-id'));
-		player.id = i;
+		player.id = i.toString();
 		player.job = html.find(':selected').val();
 		player.name = html.find('input[type="text"]').val();
 	});
